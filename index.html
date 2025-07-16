@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Gateway By RafatharCode - Modern Payment Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --danger: #e63946;
+            --warning: #fca311;
+            --gray: #6c757d;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1d2b64, #1d3557);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #a8dadc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f1faee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--success);
+        }
+
+        .deposit-form {
+            flex: 1;
+            min-width: 350px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a8dadc;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background: linear-gradient(to right, #4cc9f0, #4895ef);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 7px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .payment-info {
+            flex: 1;
+            min-width: 350px;
+            display: none;
+        }
+
+        .payment-details {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #a8dadc;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: white;
+        }
+
+        .qrcode-container {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .qrcode-placeholder {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .qrcode-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .instructions {
+            margin: 25px 0;
+        }
+
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #f1faee;
+        }
+
+        .steps {
+            list-style-type: none;
+        }
+
+        .steps li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .steps li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 22px;
+            height: 22px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-container {
+            flex: 1;
+            min-width: 350px;
+            display: none;
+        }
+
+        .status-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .status-icon.pending {
+            color: var(--warning);
+        }
+
+        .status-icon.success {
+            color: var(--success);
+        }
+
+        .status-icon.failed {
+            color: var(--danger);
+        }
+
+        .status-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .status-message {
+            color: #a8dadc;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid var(--success);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-danger {
+            background: rgba(230, 57, 70, 0.2);
+            border: 1px solid var(--danger);
+            color: #ffccd5;
+        }
+
+        .alert-success {
+            background: rgba(76, 201, 240, 0.2);
+            border: 1px solid var(--success);
+            color: #caf0f8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .history-container {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .history-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f1faee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .history-table th {
+            background: rgba(67, 97, 238, 0.3);
+            padding: 15px;
+            text-align: left;
+            color: #f1faee;
+            font-weight: 500;
+        }
+
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e9ecef;
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-table tr:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-badge.pending {
+            background: rgba(252, 163, 17, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.success {
+            background: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.failed {
+            background: rgba(230, 57, 70, 0.2);
+            color: var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a8dadc;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+        <header>
+            <h1><i class="fas fa-wallet"></i> Deposit Gateway</h1>
+            <p>By RafatharCode</p>
+            <p>Top up saldo Anda dengan cepat dan aman melalui sistem pembayaran QRIS terintegrasi</p>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('deposit')">Deposit</div>
+            <div class="tab" onclick="showTab('history')">Riwayat</div>
+            <div class="tab" onclick="showTab('help')">Bantuan</div>
+        </div>
+
+        <div class="main-content">
+            <div class="card deposit-form" id="depositTab">
+                <h2 class="card-title"><i class="fas fa-coins"></i> Deposit Saldo</h2>
+                <div class="alert alert-danger" id="errorAlert"></div>
+                
+                <div class="form-group">
+                    <label for="amount">Jumlah Deposit (Rp)</label>
+                    <input type="number" id="amount" class="form-control" placeholder="Masukkan jumlah deposit" min="1000" value="Minimal 1000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Nomor Handphone</label>
+                    <input type="text" id="phone" class="form-control" placeholder="Masukkan nomor handphone" value="Nomor Anda">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email (Opsional)</label>
+                    <input type="email" id="email" class="form-control" placeholder="Masukkan email untuk notifikasi">
+                </div>
+                
+                <button class="btn" id="btnCreatePayment">
+                    <i class="fas fa-qrcode"></i> Buat Pembayaran
+                </button>
+            </div>
+
+            <div class="card payment-info" id="paymentInfo">
+                <h2 class="card-title"><i class="fas fa-receipt"></i> Instruksi Pembayaran</h2>
+                <div class="alert alert-success" id="successAlert"></div>
+                
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Jumlah Deposit:</span>
+                        <span class="detail-value" id="paymentAmount">Rp 50,000</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Kode Transaksi:</span>
+                        <span class="detail-value" id="paymentCode">DP-20230717-001</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value"><span class="status-badge pending">Menunggu Pembayaran</span></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Batas Waktu:</span>
+                        <span class="detail-value" id="expiryTime">17 Juli 2023, 14:30 WIB</span>
+                    </div>
+                </div>
+                
+                <div class="qrcode-container">
+                    <h3>Scan QR Code untuk Pembayaran</h3>
+                    <div class="qrcode-placeholder" id="qrPlaceholder">
+                        <i class="fas fa-qrcode"></i>
+                        <span>QR Code akan muncul setelah pembayaran dibuat</span>
+                    </div>
+                    <div id="qrCodeImg" style="display: none;"></div>
+                </div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> Cara Pembayaran:</h3>
+                    <ul class="steps">
+                        <li>Buka aplikasi mobile banking/e-wallet di smartphone Anda</li>
+                        <li>Pilih menu pembayaran QRIS/QR Code</li>
+                        <li>Arahkan kamera ke QR Code di atas</li>
+                        <li>Pastikan jumlah pembayaran sesuai</li>
+                        <li>Konfirmasi pembayaran Anda</li>
+                    </ul>
+                </div>
+                
+                <button class="btn btn-success" id="btnCheckStatus">
+                    <i class="fas fa-sync-alt"></i> Cek Status Pembayaran
+                </button>
+            </div>
+
+            <div class="card status-container" id="statusContainer">
+                <div class="status-card">
+                    <div class="loader" id="statusLoader"></div>
+                    <div class="status-icon pending" id="statusIcon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h2 class="status-title" id="statusTitle">Memproses...</h2>
+                    <p class="status-message" id="statusMessage">Sedang memeriksa status pembayaran Anda</p>
+                    <button class="btn" id="btnBackToPayment">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Pembayaran
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-container" id="historyTab">
+            <h2 class="history-title"><i class="fas fa-history"></i> Riwayat Deposit</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Kode Transaksi</th>
+                        <th>Jumlah</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>17 Jul 2023, 10:15</td>
+                        <td>DP-20230717-003</td>
+                        <td>Rp 100,000</td>
+                        <td><span class="status-badge success">Berhasil</span></td>
+                    </tr>
+                    <tr>
+                        <td>16 Jul 2023, 14:30</td>
+                        <td>DP-20230716-002</td>
+                        <td>Rp 75,000</td>
+                        <td><span class="status-badge success">Berhasil</span></td>
+                    </tr>
+                    <tr>
+                        <td>15 Jul 2023, 09:45</td>
+                        <td>DP-20230715-001</td>
+                        <td>Rp 50,000</td>
+                        <td><span class="status-badge failed">Gagal</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="history-container" id="helpTab" style="display: none;">
+            <h2 class="history-title"><i class="fas fa-question-circle"></i> Pusat Bantuan</h2>
+            <div class="card">
+                <h3>Pertanyaan Umum</h3>
+                <div class="instructions">
+                    <ul class="steps">
+                        <li><strong>Bagaimana cara melakukan deposit?</strong> - Masukkan jumlah deposit, nomor handphone, lalu klik "Buat Pembayaran". Scan QR Code yang muncul dengan aplikasi pembayaran Anda.</li>
+                        <li><strong>Berapa lama deposit diproses?</strong> - Deposit akan diproses secara instan setelah pembayaran berhasil diverifikasi.</li>
+                        <li><strong>Apa yang harus dilakukan jika pembayaran gagal?</strong> - Silakan coba kembali atau hubungi layanan pelanggan kami.</li>
+                        <li><strong>Metode pembayaran apa saja yang diterima?</strong> - Kami menerima semua aplikasi pembayaran yang mendukung QRIS seperti GoPay, OVO, DANA, LinkAja, dan mobile banking.</li>
+                        <li><strong>Apakah ada biaya transaksi?</strong> - Tidak ada biaya tambahan untuk deposit melalui sistem ini.</li>
+                    </ul>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Hubungi Kami</h3>
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value">rafatharuserbotv4@gmail.com</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Telepon:</span>
+                        <span class="detail-value">+62 838 6375 5777</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">WhatsApp:</span>
+                        <span class="detail-value">+62 838 6375 5777</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Jam Operasional:</span>
+                        <span class="detail-value">Senin - Minggu, 08:00 - 22:00 WIB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Deposit Gateway By RafatharCode. All rights reserved. | Sistem pembayaran terintegrasi dengan QRIS</p>
+        </footer>
+    </div>
+      <script>
+        // Konstanta untuk API
+        const API_KEY = 'alfixkiabdg';
+        const CREATE_PAYMENT_API = `https://restapi.rafatharcode.apibotwa.biz.id/api/orkut/createpayment`;
+        const CHECK_STATUS_API = `https://restapi.rafatharcode.apibotwa.biz.id/api/orkut/cekstatus`;
+        const QR_CODE = '00020101021126670016COM.NOBUBANK.WWW01189360050300000879140214013504675598050303UMI51440014ID.CO.QRIS.WWW0215ID20243116137470303UMI5204541153033605802ID5920LUXX STORE OK15201426005METRO61053411162070703A016304FF6B';
+        
+        // Elemen DOM
+        const amountInput = document.getElementById('amount');
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+        const btnCreatePayment = document.getElementById('btnCreatePayment');
+        const btnCheckStatus = document.getElementById('btnCheckStatus');
+        const btnBackToPayment = document.getElementById('btnBackToPayment');
+        const paymentInfo = document.getElementById('paymentInfo');
+        const statusContainer = document.getElementById('statusContainer');
+        const qrPlaceholder = document.getElementById('qrPlaceholder');
+        const qrCodeImg = document.getElementById('qrCodeImg');
+        const paymentAmount = document.getElementById('paymentAmount');
+        const paymentCode = document.getElementById('paymentCode');
+        const expiryTime = document.getElementById('expiryTime');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+        const statusLoader = document.getElementById('statusLoader');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+        
+        // Data transaksi
+        let paymentData = {
+            amount: 0,
+            merchant: '',
+            keyorkut: '',
+            code: ''
+        };
+        
+        // Tampilkan tab yang dipilih
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById('depositTab').style.display = 'none';
+            document.getElementById('historyTab').style.display = 'none';
+            document.getElementById('helpTab').style.display = 'none';
+            paymentInfo.style.display = 'none';
+            statusContainer.style.display = 'none';
+            
+            if (tabName === 'deposit') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('depositTab').style.display = 'block';
+            } else if (tabName === 'history') {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('historyTab').style.display = 'block';
+            } else if (tabName === 'help') {
+                document.querySelector('.tab:nth-child(3)').classList.add('active');
+                document.getElementById('helpTab').style.display = 'block';
+            }
+        }
+        
+        // Format mata uang Rupiah
+        function formatRupiah(amount) {
+            return 'Rp ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        // Generate kode transaksi acak
+        function generatePaymentCode() {
+            const date = new Date();
+            const dateStr = date.getFullYear().toString().substr(-2) + 
+                           ('0' + (date.getMonth()+1)).slice(-2) + 
+                           ('0' + date.getDate()).slice(-2);
+            const randomNum = Math.floor(100 + Math.random() * 900);
+            return `DP-${dateStr}-${randomNum}`;
+        }
+        
+        // Hitung waktu kedaluwarsa (15 menit dari sekarang)
+        function calculateExpiryTime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 15);
+            return now.toLocaleString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            });
+        }
+        
+        // Buat pembayaran
+        async function createPayment() {
+            const amount = amountInput.value;
+            const phone = phoneInput.value;
+            
+            if (!amount || amount < 1000) {
+                showError('Jumlah deposit minimal Rp 1,000');
+                return;
+            }
+            
+            if (!phone || phone.length < 10) {
+                showError('Nomor handphone tidak valid');
+                return;
+            }
+            
+            // Tampilkan loading
+            btnCreatePayment.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            btnCreatePayment.disabled = true;
+            
+            try {
+                // Simulasi API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Simpan data pembayaran
+                paymentData = {
+                    amount: amount,
+                    merchant: 'OK1520142',
+                    keyorkut: '412735917371432671520142OKCTBFE09BF2727F30ED6E39CFBC6315EC23',
+                    code: generatePaymentCode()
+                };
+                
+                // Update UI dengan data pembayaran
+                paymentAmount.textContent = formatRupiah(amount);
+                paymentCode.textContent = paymentData.code;
+                expiryTime.textContent = calculateExpiryTime();
+                
+                // Generate QR Code (simulasi)
+                qrPlaceholder.style.display = 'none';
+                qrCodeImg.style.display = 'block';
+                qrCodeImg.innerHTML = `
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(QR_CODE)}" 
+                         alt="QR Code Pembayaran" style="border-radius: 12px;">
+                `;
+                
+                // Tampilkan instruksi pembayaran
+                paymentInfo.style.display = 'block';
+                showSuccess('Pembayaran berhasil dibuat. Silakan scan QR Code untuk melanjutkan.');
+                
+                // Scroll ke bagian pembayaran
+                paymentInfo.scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                showError('Terjadi kesalahan saat membuat pembayaran: ' + error.message);
+            } finally {
+                btnCreatePayment.innerHTML = '<i class="fas fa-qrcode"></i> Buat Pembayaran';
+                btnCreatePayment.disabled = false;
+            }
+        }
+        
+        // Cek status pembayaran
+        async function checkPaymentStatus() {
+            if (!paymentData.merchant || !paymentData.keyorkut) {
+                showError('Data pembayaran tidak ditemukan. Silakan buat pembayaran terlebih dahulu.');
+                return;
+            }
+            
+            // Tampilkan status container
+            paymentInfo.style.display = 'none';
+            statusContainer.style.display = 'block';
+            
+            // Tampilkan loading
+            statusLoader.style.display = 'block';
+            statusIcon.style.display = 'none';
+            statusTitle.textContent = 'Memproses...';
+            statusMessage.textContent = 'Sedang memeriksa status pembayaran Anda';
+            
+            try {
+                // Simulasi API call dengan delay
+                await new Promise(resolve => setTimeout(resolve, 2500));
+                
+                // Sembunyikan loader dan tampilkan status
+                statusLoader.style.display = 'none';
+                statusIcon.style.display = 'block';
+                
+                // Untuk simulasi, kita akan menggunakan status acak
+                const statuses = ['pending', 'success', 'failed'];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                if (randomStatus === 'success') {
+                    statusIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    statusIcon.className = 'status-icon success';
+                    statusTitle.textContent = 'Pembayaran Berhasil!';
+                    statusMessage.textContent = `Saldo sebesar ${formatRupiah(paymentData.amount)} telah berhasil ditambahkan ke akun Anda.`;
+                } else if (randomStatus === 'failed') {
+                    statusIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                    statusIcon.className = 'status-icon failed';
+                    statusTitle.textContent = 'Pembayaran Gagal';
+                    statusMessage.textContent = 'Pembayaran Anda gagal diproses. Silakan coba lagi atau hubungi layanan pelanggan.';
+                } else {
+                    statusIcon.innerHTML = '<i class="fas fa-clock"></i>';
+                    statusIcon.className = 'status-icon pending';
+                    statusTitle.textContent = 'Menunggu Pembayaran';
+                    statusMessage.textContent = 'Kami masih menunggu konfirmasi pembayaran Anda. Silakan selesaikan pembayaran melalui QR Code.';
+                }
+                
+            } catch (error) {
+                statusLoader.style.display = 'none';
+                statusIcon.style.display = 'block';
+                statusIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                statusIcon.className = 'status-icon failed';
+                statusTitle.textContent = 'Terjadi Kesalahan';
+                statusMessage.textContent = 'Gagal memeriksa status pembayaran: ' + error.message;
+            }
+        }
+        
+        // Tampilkan pesan error
+        function showError(message) {
+            errorAlert.textContent = message;
+            errorAlert.style.display = 'block';
+            successAlert.style.display = 'none';
+            
+            // Sembunyikan pesan error setelah 5 detik
+            setTimeout(() => {
+                errorAlert.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Tampilkan pesan sukses
+        function showSuccess(message) {
+            successAlert.textContent = message;
+            successAlert.style.display = 'block';
+            errorAlert.style.display = 'none';
+            
+            // Sembunyikan pesan sukses setelah 5 detik
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Event listeners
+        btnCreatePayment.addEventListener('click', createPayment);
+        btnCheckStatus.addEventListener('click', checkPaymentStatus);
+        btnBackToPayment.addEventListener('click', () => {
+            statusContainer.style.display = 'none';
+            paymentInfo.style.display = 'block';
+        });
+        
+        // Inisialisasi
+        showTab('deposit');
+    </script>
+</body>
+</html>
